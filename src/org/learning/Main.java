@@ -17,33 +17,32 @@ public class Main {
 
         System.out.println(c);
 
-        System.out.println("Inserisci il titolo dell' evento");
-        String title = scanner.nextLine();
-        System.out.println("Inserisci la data dell' evento giorno/mese/anno" );
-        String date = scanner.nextLine();
-        System.out.println("Inserisci il numero di posti dell' evento");
-        int maxCap = 0;
-        while (true) {
+        Event event = null;
+        while (event == null) {
+            System.out.println("Inserisci il titolo dell' evento");
+            String title = scanner.nextLine();
+            System.out.println("Inserisci la data dell' evento giorno/mese/anno" );
+            String date = scanner.nextLine();
+            System.out.println("Inserisci il numero di posti dell' evento");
+            int maxCap = 0;
+            while (true) {
+                try {
+                    maxCap = Integer.parseInt(scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("La capacità massima deve essere un numero intero");
+                }
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
             try {
-                maxCap = Integer.parseInt(scanner.nextLine());
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("La capacità massima deve essere un numero intero");
+                event = new Event(title, LocalDate.parse(date, formatter), maxCap);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (DateTimeParseException e) {
+                System.out.println("Il formato della data deve essere giorno/mese/anno");
             }
         }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
-        Event event = null;
-        try {
-            event = new Event(title, LocalDate.parse(date, formatter), maxCap);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            exit = true;
-        } catch (DateTimeParseException e) {
-            System.out.println("Il formato della data deve essere giorno/mese/anno");
-            exit = true;
-        }
-        System.out.println(event);
 
         while (!exit) {
             System.out.println("Esci = e");
