@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
-        Concert c = new Concert("titolo", LocalDate.parse("2024-12-12"), 100, LocalTime.now(), new BigDecimal("2.333333333333"));
+        Concert c = new Concert("titolo", LocalDate.parse("2024-12-12"), 100, LocalTime.parse("23:30"), new BigDecimal("2.333333333333"));
 
         System.out.println(c);
 
@@ -25,14 +25,7 @@ public class Main {
             String date = scanner.nextLine();
             System.out.println("Inserisci il numero di posti dell' evento");
             int maxCap = 0;
-            while (true) {
-                try {
-                    maxCap = Integer.parseInt(scanner.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("La capacità massima deve essere un numero intero");
-                }
-            }
+            maxCap = getMaxCap(scanner);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
             try {
@@ -80,6 +73,19 @@ public class Main {
                     break;
             }
         }
+    }
+
+    private static int getMaxCap(Scanner scanner) {
+        int maxCap;
+        while (true) {
+            try {
+                maxCap = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("La capacità massima deve essere un numero intero");
+            }
+        }
+        return maxCap;
     }
 
     private static void printInfo(Event event) {

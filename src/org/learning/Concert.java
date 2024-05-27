@@ -12,11 +12,24 @@ public class Concert extends Event{
 
     public Concert(String title, LocalDate date, int MAX_CAPACITY, LocalTime hour, BigDecimal price) throws IllegalArgumentException {
         super(title, date, MAX_CAPACITY);
-        this.hour = hour;
-        this.price = price;
+        this.hour = checkHour(hour);
+        this.price = checkPrice(price);
     }
 
     // Metodi
+    private LocalTime checkHour(LocalTime hour) {
+        if (hour == null || hour.isBefore(LocalTime.now())) {
+            throw new IllegalArgumentException("L'orario inserito non è valido");
+        }
+        return hour;
+    }
+
+    private BigDecimal checkPrice(BigDecimal price) {
+        if (price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Il prezzo non può essere negativo");
+        }
+        return price;
+    }
 
     public String formattedPrice() {
         return String.format("%.2f€", price);
@@ -33,7 +46,7 @@ public class Concert extends Event{
     }
 
     public void setHour(LocalTime hour) {
-        this.hour = hour;
+        this.hour = checkHour(hour);
     }
 
     public BigDecimal getPrice() {
@@ -41,7 +54,7 @@ public class Concert extends Event{
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = checkPrice(price);
     }
 
     @Override
