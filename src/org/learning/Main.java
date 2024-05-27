@@ -1,6 +1,8 @@
 package org.learning;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
@@ -11,6 +13,9 @@ public class Main {
     public static void main(String[] args) {
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
+        Concert c = new Concert("titolo", LocalDate.parse("2024-12-12"), 100, LocalTime.now(), new BigDecimal("2.333333333333"));
+
+        System.out.println(c);
 
         System.out.println("Inserisci il titolo dell' evento");
         String title = scanner.nextLine();
