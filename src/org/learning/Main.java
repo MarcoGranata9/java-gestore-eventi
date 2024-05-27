@@ -1,24 +1,89 @@
 package org.learning;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        Event evento = new Event("ciao", LocalDate.parse("2024-06-15"), 100);
+        boolean exit = false;
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println(evento.getTitle());
-        System.out.println(evento.getDate());
+        System.out.println("Inserisci il titolo dell' evento");
+        String title = scanner.nextLine();
+        System.out.println("Inserisci la data dell' evento giorno/mese/anno" );
+        String date = scanner.nextLine();
+        System.out.println("Inserisci il numero di posti dell' evento");
+        int maxCap = 0;
+        while (true) {
+            try {
+                maxCap = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("La capacità massima deve essere un numero intero");
+            }
+        }
 
-        evento.setDate(LocalDate.parse("2132-09-24"));
-        evento.setTitle("Hello");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
+        Event event = null;
+        try {
+            event = new Event(title, LocalDate.parse(date, formatter), maxCap);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            exit = true;
+        } catch (DateTimeParseException e) {
+            System.out.println("Il formato della data deve essere giorno/mese/anno");
+            exit = true;
+        }
+        System.out.println(event);
 
-        evento.bookSeat(101);
-        evento.cancelBookSeat(11);
+        while (!exit) {
+            System.out.println("Esci = e");
+            System.out.println("Prenota = p");
+            System.out.println("Disdici = d");
 
-        System.out.println(evento.getMaxSeat());
-        System.out.println(evento.getReservedSeat());
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "e":
+                    exit = true;
+                    printInfo(event);
+                    break;
+                case "p":
+                    System.out.println("Quanti posti vuoi prenotare?");
+                    int seatsToBook = Integer.parseInt(scanner.nextLine());
+                    try {
+                        event.bookSeat(seatsToBook);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    printInfo(event);
+                    break;
+                case "d":
+                    System.out.println("Quanti posti vuoi disdire?");
+                    int seatsToCancel = Integer.parseInt(scanner.nextLine());
+                    try {
+                        event.cancelBookSeat(seatsToCancel);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    printInfo(event);
+                    break;
+                default:
+                    System.out.println("Scelta non valida");
+                    break;
+            }
+        }
+    }
 
-        System.out.println(evento);
+    private static void printInfo(Event event) {
+        System.out.println("----------------------------------");
+        System.out.println(event.getTitle());
+        System.out.println("Posti riservati: " + event.getReservedSeat());
+        System.out.println("Posti disponibili " + (event.getMaxSeat() - event.getReservedSeat()));
+        System.out.println("----------------------------------");
+
     }
 }

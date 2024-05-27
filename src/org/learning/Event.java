@@ -21,7 +21,7 @@ public class Event {
     // Metodi
     private int checkMaxSeat (int MAX_CAPACITY) throws IllegalArgumentException{
         if (MAX_CAPACITY <= 0) {
-            throw new IllegalArgumentException("Il numero di posti deve essere positivo " + "Numero inserito" + MAX_CAPACITY);
+            throw new IllegalArgumentException("Il numero di posti deve essere positivo " + "Numero inserito " + MAX_CAPACITY);
         }
         return MAX_CAPACITY;
     }
@@ -36,14 +36,14 @@ public class Event {
     public void bookSeat(int seatsToBook) throws IllegalArgumentException{
         if (reservedSeat + seatsToBook > MAX_CAPACITY || date.isBefore(LocalDate.now())) {
             int availableSeats = MAX_CAPACITY - reservedSeat;
-            throw new IllegalArgumentException("Posti disponibili: " + availableSeats + ", Posti inseriti " + seatsToBook);
+            throw new IllegalArgumentException("ERRORE: Posti disponibili: " + availableSeats + ", Posti inseriti " + seatsToBook);
         }
         reservedSeat += seatsToBook;
     }
     // Disdici posto
     public void cancelBookSeat(int seatsToCancel) {
         if (reservedSeat - seatsToCancel < 0 || date.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Posti riservati: " + reservedSeat + " Posti inseriti " + seatsToCancel);
+            throw new IllegalArgumentException("ERRORE: Posti riservati: " + reservedSeat + " Posti inseriti " + seatsToCancel);
         }
         reservedSeat -= seatsToCancel;
     }
@@ -74,7 +74,7 @@ public class Event {
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
         return "Event {" + "\n" +
                 "title: " + title + "\n" +
                 "date: " + date.format(formatter) + "\n" +
