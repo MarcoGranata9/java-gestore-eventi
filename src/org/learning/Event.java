@@ -78,7 +78,7 @@ public class Event {
         return "Event {" + "\n" +
                 "title: " + title + "\n" +
                 "date: " + date.format(formatter) + "\n" +
-        "}";
+        "}\n";
     }
 }
 
