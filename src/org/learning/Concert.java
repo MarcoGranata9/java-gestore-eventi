@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Concert extends Event{
     LocalTime hour;
@@ -45,6 +46,7 @@ public class Concert extends Event{
 
     @Override
     public String toString() {
-        return "Titolo: " + super.getTitle() + " | Ora: " + formattedHour() + " | Prezzo: " + formattedPrice();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
+        return "Titolo: " + super.getTitle() + " | Data: " + getDate().format(formatter) + " | Ora: " + formattedHour() + " | Prezzo: " + formattedPrice();
     }
 }
