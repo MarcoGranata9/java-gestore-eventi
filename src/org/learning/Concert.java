@@ -17,14 +17,14 @@ public class Concert extends Event{
     }
 
     // Metodi
-    private LocalTime checkHour(LocalTime hour) {
+    private LocalTime checkHour(LocalTime hour) throws IllegalArgumentException{
         if (hour == null || hour.isBefore(LocalTime.now())) {
             throw new IllegalArgumentException("L'orario inserito non è valido");
         }
         return hour;
     }
 
-    private BigDecimal checkPrice(BigDecimal price) {
+    private BigDecimal checkPrice(BigDecimal price) throws IllegalArgumentException{
         if (price.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Il prezzo non può essere negativo");
         }
